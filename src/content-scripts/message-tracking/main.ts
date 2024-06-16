@@ -2,6 +2,7 @@ import { getQueryParameters } from "../../shared/utils/getQueryParameters";
 import { initExpeditionAndLifeformDiscoveryTracking } from "./expedition-and-lifeform-discovery-tracking";
 import { initDebrisFieldReportTracking } from "./debris-field-report-tracking";
 import { initCombatReportTracking } from "./combat-report-tracking";
+import { initTransportMessageParsing } from "./transport-report-parsing";
 import { Settings } from "@/shared/models/settings/Settings";
 import { RequestSettingsMessage, SettingsMessage } from "@/shared/messages/settings";
 import { MessageType } from "@/shared/messages/MessageType";
@@ -16,7 +17,7 @@ const queryParams = getQueryParameters(location.search);
 export const settingsWrapper = {
     settings: {} as Settings,
 };
-if (queryParams.page == 'messages') {
+if (queryParams.page?.toLowerCase() == 'ingame' && queryParams.component?.toLowerCase() == 'messages') {
     init();
 }
 
@@ -26,6 +27,7 @@ async function init() {
     initExpeditionAndLifeformDiscoveryTracking();
     initCombatReportTracking();
     initDebrisFieldReportTracking();
+    initTransportMessageParsing();
 
     settingsWrapper.settings = await settingsPromise;
 }

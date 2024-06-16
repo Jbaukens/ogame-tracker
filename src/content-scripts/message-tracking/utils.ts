@@ -3,6 +3,7 @@ import { _throw } from "../../shared/utils/_throw";
 export const tabIds = {
     combats: 21,
     expedition: 22,
+    transport: 23,
     misc: 24,
 };
 
@@ -20,6 +21,7 @@ export const cssClasses = {
         expedition: `${cssBase}-msg--expedition`,
         lifeformDiscovery: `${cssBase}-msg--lifeform-discovery`,
         debrisFieldReport: `${cssBase}-msg--debris-field-report`,
+        transportReport: `${cssBase}-msg--transport-report`,
         combatReport:  `${cssBase}-msg--combat-report`,
 
         customMessageContent: `${cssBase}-msg__content`,
@@ -33,7 +35,7 @@ export function addOrSetCustomMessageContent(msgElem: Element, htmlContent: stri
         newContent = document.createElement('div');
         newContent.classList.add(cssClasses.messages.customMessageContent);
 
-        const msgContent = msgElem.querySelector('.msg_content') ?? _throw('no message content found');
+        const msgContent = msgElem.querySelector('.msgContent') ?? _throw('no message content found');
         msgElem.insertBefore(newContent, msgContent.nextElementSibling);
     }
 
