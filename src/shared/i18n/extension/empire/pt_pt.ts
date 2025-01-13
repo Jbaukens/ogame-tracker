@@ -54,6 +54,8 @@ export const pt_pt: RecursivePartial<EmpireTranslations> = {
             amortizationTime: 'Tempo de Amortização',
             groupSelectedItems: 'Agrupar items selecionados',
             showOriginalItems: 'Mostrar todos os items individualmente',
+            pointsGaigned: 'Points',
+            constructionTime: 'Construction Time',
 
             levelsOnPlanets: (levels, planets) => `${levels} ${levels == 1 ? 'nível' : 'níveis'} ${planets == 1 ? 'no' : 'nos'} ${planets} ${planets == 1 ? 'planeta' : 'planetas'}`,
         },

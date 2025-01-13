@@ -28,6 +28,7 @@ export interface BaseAmortizationItem {
     productionDelta: Cost;
     productionDeltaConverted: number;
     timeInHours: number;
+    pointsGaigned: number;
 }
 
 export interface MineAmortizationItem extends BaseAmortizationItem {

@@ -58,7 +58,9 @@ export const en: EmpireTranslations = {
             amortizationTime: 'Amortization Time',
             groupSelectedItems: 'Group selected items',
             showOriginalItems: 'Show all items individually',
-
+            pointsGaigned: 'Points',
+            constructionTime: 'Construction Time',
+            
             levelsOnPlanets: (levels, planets) => `${levels} ${levels == 1 ? 'level' : 'levels'} on ${planets} ${planets == 1 ? 'planet' : 'planets'}`,
         },
 

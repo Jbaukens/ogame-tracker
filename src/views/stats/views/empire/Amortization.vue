@@ -440,6 +440,10 @@
                             <span v-text="$i18n.$timespan(value * 60 * 60)" />
                         </template>
 
+                        <template #cell-pointsGaigned="{ value }">
+                            <decimal-number :value="value" />
+                        </template>
+
                         <template #footer-cost="{ value }">
                             <div class="cost-grid">
                                 <span v-text="$i18n.$n(value.metal)" :class="{ zero: value.metal == 0 }" />
@@ -470,6 +474,9 @@
                             <decimal-number :value="value" />
                         </template>
                         <template #footer-timeInHours />
+                        <template #footer-pointsGaigned="{ value }">
+                            <decimal-number :value="value" />
+                        </template>
                     </grid-table>
 
                     <div style="display: flex; gap: 8px" v-if="generator != null" v-show="!isGroupedItemsView">
@@ -804,7 +811,7 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
                 this.selectedCount = 0;
                 this.isGroupedItemsView = false;
 
-                void this.insertNextAmortizationItems(25);
+                void this.insertNextAmortizationItems(100);
             }
         }
 
@@ -839,9 +846,12 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
 
             this.generatingItemCount = { total: count, count: 0 };
             await this.$nextTick();
+            
+            let todoList: Record<string, any> = {}
+            
 
             while (count > 0) {
-                const next = this.generator?.nextItem();
+                const next = this.generator?.nextItem(todoList);
 
                 if (next == null || this.stopGenerating) {
                     break;
@@ -858,6 +868,7 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
                 await delay(10);
             }
 
+            console.log("todoList: ", todoList)
             this.generatingItemCount = null;
         }
 
@@ -1018,6 +1029,12 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
                 size: '1fr',
             });
 
+            result.push({
+                key: 'pointsGaigned',
+                label: this.$i18n.$t.extension.empire.amortization.table.pointsGaigned,
+                size: '1fr',
+            });
+
             return result;
         }
 
@@ -1029,11 +1046,13 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
             let cost: Cost = { metal: 0, crystal: 0, deuterium: 0, energy: 0 };
             let productionDelta: Cost = { metal: 0, crystal: 0, deuterium: 0, energy: 0 };
             let productionDeltaConverted = 0;
+            let pointsGaigned = 0;
 
             this.amortizationItems.filter(i => i.selected).forEach(item => {
                 cost = addCost(cost, item.cost);
                 productionDelta = addCost(productionDelta, item.productionDelta);
                 productionDeltaConverted += item.productionDeltaConverted;
+                pointsGaigned += item.pointsGaigned;
             });
 
             return [{
@@ -1042,6 +1061,7 @@ import { getPlanetExpeditionState, getPlanetState } from '@/shared/models/empire
                 productionDelta,
                 productionDeltaConverted,
                 timeInHours: 0,
+                pointsGaigned,
             }];
         }
 

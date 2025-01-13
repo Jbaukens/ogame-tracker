@@ -57,6 +57,8 @@ export interface EmpireTranslations {
             amortizationTime: string;
             groupSelectedItems: string;
             showOriginalItems: string;
+            pointsGaigned: string;
+            constructionTime: string;
 
             levelsOnPlanets: (levels: number, planets: number) => string;
         };
